@@ -56,6 +56,15 @@ python manage.py runserver
 
 Abra `http://127.0.0.1:8000/`. O MVP não precisa de banco de dados nem de migrações.
 
+O navegador interno de alguns aplicativos envia formulários com a origem `null`, que o Django bloqueia por padrão. Somente para testar nesse navegador, inicie o servidor local no PowerShell com:
+
+```powershell
+$env:DJANGO_LOCAL_BROWSER_ORIGIN_COMPAT = "1"
+python manage.py runserver
+```
+
+Essa opção aceita a origem `null` apenas em conexões HTTP locais (`127.0.0.1` ou `localhost`); o token CSRF do formulário continua obrigatório. Deixe a opção desligada em qualquer hospedagem pública.
+
 ## Testes
 
 ```bash
@@ -63,7 +72,7 @@ python manage.py test
 python manage.py check
 ```
 
-Os testes cobrem exemplos com e sem sinais, validação da entrada, resultado HTTP, proteção contra exibir novamente o texto enviado e a ausência de chamadas de rede durante a análise.
+Os testes cobrem exemplos com e sem sinais, validação da entrada, resultado HTTP, proteção contra exibir novamente o texto enviado, ausência de chamadas de rede durante a análise e a proteção CSRF no modo de teste local.
 
 ## Hospedagem
 
@@ -100,3 +109,4 @@ O WhiteNoise serve os arquivos estáticos. Não use `runserver` em produção. O
 ## Licença
 
 MIT. Veja [LICENSE](LICENSE).
+

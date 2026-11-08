@@ -6,6 +6,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "development-only-change-me")
 DEBUG = os.environ.get("DJANGO_DEBUG", "0") == "1"
 ALLOWED_HOSTS = [host.strip() for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,testserver").split(",") if host.strip()]
 CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",") if origin.strip()]
+LOCAL_BROWSER_ORIGIN_COMPAT = os.environ.get("DJANGO_LOCAL_BROWSER_ORIGIN_COMPAT", "0") == "1"
 if render_host := os.environ.get("RENDER_EXTERNAL_HOSTNAME"):
     ALLOWED_HOSTS.append(render_host)
 if render_url := os.environ.get("RENDER_EXTERNAL_URL"):
@@ -15,7 +16,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    "config.csrf.LocalBrowserCsrfViewMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 ROOT_URLCONF = "config.urls"
@@ -38,3 +39,4 @@ CSRF_COOKIE_SECURE = SECURE_SSL_REDIRECT
 X_FRAME_OPTIONS = "DENY"
 DEFAULT_CHARSET = "utf-8"
 DATA_UPLOAD_MAX_MEMORY_SIZE = 16_384
+
