@@ -1,5 +1,6 @@
 from django.test import SimpleTestCase
 from django.urls import reverse
+from unittest.mock import patch
 
 from .analysis import analyze
 
@@ -18,6 +19,12 @@ class AnalysisTests(SimpleTestCase):
         self.assertIn("Domínio disfarçado", titles)
         self.assertIn("Endereço por IP", titles)
         self.assertIn("Porta incomum", titles)
+
+    def test_analysis_never_resolves_or_visits_url(self):
+        with patch("socket.getaddrinfo") as dns, patch("urllib.request.urlopen") as visit:
+            analyze("http://usuario@203.0.113.7:8080/login")
+        dns.assert_not_called()
+        visit.assert_not_called()
 
     def test_no_signal_never_claims_safety(self):
         result = analyze("Nossa reunião será amanhã às 14h.")

@@ -42,14 +42,14 @@ Casos de exemplo:
 
 ## Hospedagem
 
-Configure `DJANGO_SECRET_KEY` com valor aleatório, `DJANGO_ALLOWED_HOSTS` com os domínios públicos e `DJANGO_CSRF_TRUSTED_ORIGINS` com as origens HTTPS. Use `DJANGO_DEBUG=0` e HTTPS. Exemplo de processo:
+Configure `DJANGO_SECRET_KEY` com valor aleatório, `DJANGO_ALLOWED_HOSTS` com os domínios públicos e `DJANGO_CSRF_TRUSTED_ORIGINS` com as origens HTTPS. Use `DJANGO_DEBUG=0`, `DJANGO_HTTPS=1` e HTTPS. O WhiteNoise serve os arquivos estáticos. Exemplo de processo:
 
 ```bash
 python manage.py collectstatic --noinput
 gunicorn config.wsgi:application --bind 0.0.0.0:${PORT:-8000}
 ```
 
-Para servir arquivos estáticos em hospedagem simples, configure WhiteNoise ou sirva `staticfiles/` no proxy. Não use o servidor `runserver` para produção.
+Não use o servidor `runserver` para produção. O valor padrão de `DJANGO_SECRET_KEY` é somente para desenvolvimento local.
 
 ## Licença
 
