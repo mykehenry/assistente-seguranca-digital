@@ -2,7 +2,7 @@
 
 Uma ferramenta educativa do projeto **AI4Good** para ajudar pessoas no Brasil a reconhecer sinais comuns de phishing em mensagens e links. Você cola um trecho, recebe uma avaliação explicada e vê o que fazer antes de clicar, responder ou pagar.
 
-> **Estado do projeto:** MVP funcional. O código está público, mas ainda não há uma demonstração hospedada e verificada.
+> **Estado do projeto:** MVP funcional. [Experimente a demonstração pública](https://assistente-seguranca-digital.onrender.com/). O serviço gratuito pode demorar a iniciar após ficar inativo.
 
 ## O que a ferramenta faz
 
@@ -79,6 +79,8 @@ Para publicar em um serviço que execute Python/Django, configure:
 
 O repositório inclui [`render.yaml`](render.yaml) com um serviço web gratuito, instalação de dependências, coleta de arquivos estáticos e geração de um segredo privado. No Render, conecte este repositório como Blueprint; o domínio `onrender.com` fornecido pela plataforma é reconhecido automaticamente pelo Django. Após a implantação, confirme que a página, o CSS e o envio do formulário funcionam no endereço público.
 
+A demonstração atual foi criada a partir da URL pública do repositório, sem conexão de implantação automática. Para publicar futuras alterações do GitHub, use **Manual Deploy** no painel do serviço Render. O arquivo `render.yaml` pode ser usado em uma configuração Blueprint futura.
+
 Exemplo de inicialização em um servidor Linux com HTTPS configurado no proxy:
 
 ```bash
@@ -93,9 +95,8 @@ O WhiteNoise serve os arquivos estáticos. Não use `runserver` em produção. O
 - Validar as regras com exemplos de golpes brasileiros e medir falsos positivos e negativos.
 - Melhorar a cobertura de URLs e a clareza das explicações sem visitar os destinos.
 - Testar acessibilidade com leitores de tela e pessoas usuárias.
-- Hospedar uma demonstração pública e publicar uma política de privacidade apropriada para essa hospedagem.
+- Publicar uma política de privacidade apropriada para a hospedagem atual.
 
 ## Licença
 
 MIT. Veja [LICENSE](LICENSE).
-
