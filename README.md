@@ -77,6 +77,8 @@ Para publicar em um serviço que execute Python/Django, configure:
 | `DJANGO_DEBUG=0` | Desativa páginas de depuração. |
 | `DJANGO_HTTPS=1` | Ativa redirecionamento HTTPS, cookies seguros e HSTS. |
 
+O repositório inclui [`render.yaml`](render.yaml) com um serviço web gratuito, instalação de dependências, coleta de arquivos estáticos e geração de um segredo privado. No Render, conecte este repositório como Blueprint; o domínio `onrender.com` fornecido pela plataforma é reconhecido automaticamente pelo Django. Após a implantação, confirme que a página, o CSS e o envio do formulário funcionam no endereço público.
+
 Exemplo de inicialização em um servidor Linux com HTTPS configurado no proxy:
 
 ```bash
