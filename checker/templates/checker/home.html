@@ -3,63 +3,53 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Identifique sinais comuns de phishing em mensagens e links, sem abrir os endereços informados.">
+  <meta name="description" content="Entenda os sinais de golpes em mensagens e links, sem abrir os endereços informados.">
   <title>Assistente de Segurança Digital</title>
-  <link rel="stylesheet" href="{% static 'checker/style.css' %}">
+  <link rel="stylesheet" href="{% static 'checker/style.css' %}?v=3">
+  <script src="{% static 'checker/interface.js' %}" defer></script>
 </head>
 <body>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-  <header class="site-header"><div class="wrap header-row"><span class="brand-mark" aria-hidden="true">✳</span><span class="brand">Assistente de Segurança Digital</span><span class="badge">AI4Good · MVP</span></div></header>
-  <main id="conteudo" class="wrap">
-    <section class="hero" aria-labelledby="titulo">
-      <p class="eyebrow">Pare. Confira. Proteja-se.</p>
-      <h1 id="titulo">Recebeu uma mensagem ou link suspeito?</h1>
-      <p class="lead">Veja sinais de possível golpe e entenda por que merecem atenção. A análise usa regras locais e <strong>não abre os links</strong> informados.</p>
+  <header class="site-header"><div class="wrap header-row">
+    <a class="brand" href="/" aria-label="Assistente de Segurança Digital, página inicial"><span class="brand-mark" aria-hidden="true">✳</span><span>assistente<span class="brand-light"> / segurança digital</span></span></a>
+    <span class="header-note">Uma iniciativa AI4Good</span><a class="header-link" href="#como-funciona">Como funciona ↗</a>
+  </div></header>
+  <main id="conteudo">
+    <section class="hero wrap" aria-labelledby="titulo">
+      <div class="hero-copy"><p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span> Educação para a vida digital <span class="edition">/ 01</span></p>
+        <h1 id="titulo">Antes de clicar,<br><em>olhe de novo.</em></h1>
+        <p class="lead">Uma mensagem pode parecer urgente. Um link pode parecer familiar. Descubra o que merece atenção antes de responder, pagar ou compartilhar dados.</p>
+        <a class="hero-cta" href="#analisar">Analisar uma mensagem <span aria-hidden="true">↘</span></a>
+        <p class="hero-footnote">Sem cadastro · A análise não abre os links enviados · Resultado explicado</p>
+      </div>
+      <div class="hero-art" aria-hidden="true"><div class="art-grid"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div><div class="art-center"><span class="art-spark">✳</span><span>PAUSE<br>ANTES<br>DO CLIQUE</span></div><span class="art-coordinate art-top">SINAL / 001</span><span class="art-coordinate art-bottom">OBSERVE · CONFIRA · DECIDA</span><span class="art-dot dot-one"></span><span class="art-dot dot-two"></span></div>
     </section>
-
-    <div class="layout">
-      <section class="card checker" aria-labelledby="form-title">
-        <h2 id="form-title">Analisar conteúdo</h2>
-        <p>Cole apenas o trecho necessário. Remova nomes, números, senhas e outros dados pessoais antes de enviar.</p>
-        <form method="post" action="/" novalidate>
-          {% csrf_token %}
-          <label for="content">Mensagem ou URL</label>
-          <textarea id="content" name="content" rows="7" maxlength="1000" required aria-describedby="field-help" placeholder="Ex.: Sua conta será bloqueada hoje. Acesse http://exemplo.com e informe seu código."></textarea>
-          <div class="field-footer"><small id="field-help">Até 1.000 caracteres. Não inclua dados sensíveis.</small></div>
+    <div class="rule wrap"><span>01 / A FERRAMENTA</span><span>LEITURA CRÍTICA, EM VEZ DE PRESSA</span></div>
+    <section class="workspace wrap" aria-labelledby="form-title">
+      <div class="workspace-intro"><p class="eyebrow">Sua verificação começa aqui</p><h2 id="form-title">O que você <em>recebeu?</em></h2><p>Cole apenas o trecho que causou dúvida. Retire nomes, números, senhas, códigos e dados bancários antes de enviar.</p><div class="privacy-flag"><span class="privacy-icon" aria-hidden="true">◎</span><span>O texto é analisado durante a solicitação e não é salvo pelo aplicativo.</span></div></div>
+      <div class="checker-panel" id="analisar"><div class="panel-top"><span>ANÁLISE DE SINAIS</span><span>Nº 01</span></div>
+        <form method="post" action="/" novalidate>{% csrf_token %}
+          <label for="content">Mensagem ou URL</label><textarea id="content" name="content" rows="6" maxlength="1000" required aria-describedby="field-help char-count" placeholder="Cole aqui a mensagem ou o endereço suspeito..."></textarea>
+          <div class="field-footer"><small id="field-help">Use somente o trecho necessário. Não inclua dados sensíveis.</small><span id="char-count" aria-live="polite">0 / 1.000</span></div>
           {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
-          <button type="submit">Verificar sinais</button>
+          <div class="form-actions"><button class="submit-button" type="submit">Verificar sinais <span aria-hidden="true">↗</span></button><button class="clear-button" id="clear-content" type="button">Limpar texto</button></div>
         </form>
-        <p class="privacy">Sem cadastro. O conteúdo é processado durante a solicitação e não é salvo pelo aplicativo.</p>
-      </section>
-
-      <aside class="card aside" aria-labelledby="how-title">
-        <h2 id="how-title">Como funciona</h2>
-        <ol>
-          <li><strong>Você compartilha o mínimo.</strong> Use só o trecho relevante.</li>
-          <li><strong>As regras procuram sinais.</strong> Urgência, pedidos sensíveis e padrões incomuns de URL.</li>
-          <li><strong>Você decide com mais contexto.</strong> Confirme sempre em um canal oficial.</li>
-        </ol>
-        <div class="note"><strong>Importante</strong><p>Esta versão usa heurísticas determinísticas, não um modelo de linguagem (LLM). Ela pode errar e não garante que uma mensagem ou site seja seguro.</p></div>
-      </aside>
-    </div>
-
-    {% if result %}
-    <section class="card result result-{{ result.level }}" aria-labelledby="result-title" role="status">
-      <p class="eyebrow">Resultado da análise</p>
-      <h2 id="result-title">{% if result.level == 'alto' %}Atenção elevada{% elif result.level == 'moderado' %}Atenção recomendada{% else %}Segurança não confirmada{% endif %}</h2>
-      <p>{{ result.summary }}</p>
-      {% if result.findings %}
-      <h3>Sinais encontrados</h3>
-      <ul class="findings">{% for finding in result.findings %}<li><strong>{{ finding.title }}</strong><span>{{ finding.explanation }}</span></li>{% endfor %}</ul>
-      {% else %}<p>Nenhum padrão das regras atuais foi identificado.</p>{% endif %}
-      <h3>O que fazer agora</h3>
-      <ul class="advice">{% for item in result.advice %}<li>{{ item }}</li>{% endfor %}</ul>
-      <p class="result-foot">{{ result.urls_found }} endereço{{ result.urls_found|pluralize:"s" }} identificado{{ result.urls_found|pluralize:"s" }}. Nenhum foi acessado.</p>
+      </div>
     </section>
-    {% endif %}
-
-    <section class="examples" aria-labelledby="examples-title"><h2 id="examples-title">Exemplos para testar</h2><div class="example-grid"><div class="example"><strong>Mensagem com pressão</strong><p>“Urgente! Sua conta será bloqueada. Informe seu código agora.”</p></div><div class="example"><strong>Link que pede atenção</strong><p>“Confira: http://conta.exemplo.top/confirmar”</p></div><div class="example"><strong>Sem sinal conhecido</strong><p>“Nossa reunião será amanhã às 14h.”</p></div></div></section>
+    {% if result %}<section class="result-wrap wrap" id="resultado" aria-labelledby="result-title" role="status"><div class="result result-{{ result.level }}">
+      <div class="result-lead"><p class="eyebrow">02 / Resultado da análise</p><div class="result-symbol" aria-hidden="true">{% if result.level == 'alto' %}!{% elif result.level == 'moderado' %}~{% else %}?{% endif %}</div><h2 id="result-title">{% if result.level == 'alto' %}Atenção elevada{% elif result.level == 'moderado' %}Atenção recomendada{% else %}Segurança não confirmada{% endif %}</h2><p>{{ result.summary }}</p></div>
+      <div class="result-details"><h3>Sinais encontrados</h3>{% if result.findings %}<ul class="findings">{% for finding in result.findings %}<li><strong>{{ finding.title }}</strong><span>{{ finding.explanation }}</span></li>{% endfor %}</ul>{% else %}<p>Nenhum padrão das regras atuais foi identificado.</p>{% endif %}<h3>O que fazer agora</h3><ul class="advice">{% for item in result.advice %}<li>{{ item }}</li>{% endfor %}</ul><p class="result-foot">{{ result.urls_found }} endereço{{ result.urls_found|pluralize:"s" }} identificado{{ result.urls_found|pluralize:"s" }}. Nenhum foi acessado.</p></div>
+    </div></section>{% endif %}
+    <section class="samples-section" aria-labelledby="examples-title"><div class="wrap"><div class="section-heading"><div><p class="eyebrow">Experimente sem expor seus dados</p><h2 id="examples-title">Três situações.<br><em>Três formas de olhar.</em></h2></div><p>Toque em um exemplo para colocá-lo no campo acima. Todos os textos são fictícios.</p></div>
+      <div class="sample-grid">
+        <button class="sample sample-alert" type="button" data-sample="Urgente! Sua conta será bloqueada. Informe seu código agora." aria-label="Usar exemplo de mensagem com pressão"><span class="sample-number">01 / MENSAGEM</span><span class="sample-tag">Pressão para agir</span><strong>“Urgente! Sua conta será bloqueada. Informe seu código agora.”</strong><span class="sample-action">Testar este exemplo <span aria-hidden="true">↗</span></span></button>
+        <button class="sample sample-link" type="button" data-sample="Confira: http://conta.exemplo.top/confirmar" aria-label="Usar exemplo de link suspeito"><span class="sample-number">02 / LINK</span><span class="sample-tag">Endereço incomum</span><strong>“Confira: http://conta.exemplo.top/confirmar”</strong><span class="sample-action">Testar este exemplo <span aria-hidden="true">↗</span></span></button>
+        <button class="sample sample-neutral" type="button" data-sample="Nossa reunião será amanhã às 14h." aria-label="Usar exemplo sem sinal conhecido"><span class="sample-number">03 / CONTEXTO</span><span class="sample-tag">Sem sinal conhecido</span><strong>“Nossa reunião será amanhã às 14h.”</strong><span class="sample-action">Testar este exemplo <span aria-hidden="true">↗</span></span></button>
+      </div></div></section>
+    <section class="explainer wrap" id="como-funciona" aria-labelledby="how-title"><div><p class="eyebrow">O método</p><h2 id="how-title">Pausar também<br>é se <em>proteger.</em></h2></div><div class="explainer-steps"><div><span>01</span><p><strong>Compartilhe o mínimo.</strong> Use só o trecho relevante e retire dados pessoais.</p></div><div><span>02</span><p><strong>Observe os sinais.</strong> As regras procuram urgência, pedidos sensíveis e padrões incomuns de URL.</p></div><div><span>03</span><p><strong>Confirme por fora.</strong> Abra o aplicativo oficial ou digite você mesmo o endereço conhecido.</p></div></div></section>
+    <aside class="limit-note wrap" aria-label="Limites da ferramenta"><span aria-hidden="true">✳</span><p><strong>Um apoio para decidir, não um selo de segurança.</strong> Esta versão usa heurísticas determinísticas, não um modelo de linguagem. Pode errar e não garante que uma mensagem ou site seja seguro.</p></aside>
   </main>
-  <footer class="wrap footer"><p>Uma ferramenta educativa. Em caso de dúvida, procure os canais oficiais da organização.</p></footer>
+  <footer class="site-footer"><div class="wrap footer-row"><span>assistente / segurança digital</span><span>AI4Good · Projeto educativo</span><a href="#conteudo">Voltar ao início ↑</a></div></footer>
 </body>
 </html>
+

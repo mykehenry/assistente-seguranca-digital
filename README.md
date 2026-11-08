@@ -27,7 +27,7 @@ Mesmo quando o resultado parece tranquilo, abra o aplicativo oficial ou digite v
 
 ## Exemplos para experimentar
 
-Use somente exemplos fictícios; não envie credenciais reais.
+Use somente exemplos fictícios; não envie credenciais reais. Na interface, selecione um cartão de exemplo para preencher o campo de análise, confira o contador de caracteres e clique em **Verificar sinais**.
 
 | Entrada | Resultado esperado |
 | --- | --- |
