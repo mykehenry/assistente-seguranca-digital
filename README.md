@@ -47,13 +47,14 @@ Use somente exemplos fictícios; não envie credenciais reais.
 
 Requer Python compatível com Django 6.1 (testado com Python 3.15).
 
+Se quiser isolar as dependências, crie um ambiente com `python -m venv .venv` e ative-o **antes** da instalação (`.venv\Scripts\Activate.ps1` no PowerShell; `source .venv/bin/activate` no macOS/Linux).
+
 ```bash
-python -m venv .venv
 python -m pip install -r requirements.txt
 python manage.py runserver
 ```
 
-Ative o ambiente virtual se quiser isolar as dependências (`.venv\Scripts\Activate.ps1` no PowerShell; `source .venv/bin/activate` no macOS/Linux). Abra `http://127.0.0.1:8000/`. O MVP não precisa de banco de dados nem de migrações.
+Abra `http://127.0.0.1:8000/`. O MVP não precisa de banco de dados nem de migrações.
 
 ## Testes
 
