@@ -1,0 +1,65 @@
+{% load static %}<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Identifique sinais comuns de phishing em mensagens e links, sem abrir os endereços informados.">
+  <title>Assistente de Segurança Digital</title>
+  <link rel="stylesheet" href="{% static 'checker/style.css' %}">
+</head>
+<body>
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+  <header class="site-header"><div class="wrap header-row"><span class="brand-mark" aria-hidden="true">✳</span><span class="brand">Assistente de Segurança Digital</span><span class="badge">AI4Good · MVP</span></div></header>
+  <main id="conteudo" class="wrap">
+    <section class="hero" aria-labelledby="titulo">
+      <p class="eyebrow">Pare. Confira. Proteja-se.</p>
+      <h1 id="titulo">Recebeu uma mensagem ou link suspeito?</h1>
+      <p class="lead">Veja sinais de possível golpe e entenda por que merecem atenção. A análise usa regras locais e <strong>não abre os links</strong> informados.</p>
+    </section>
+
+    <div class="layout">
+      <section class="card checker" aria-labelledby="form-title">
+        <h2 id="form-title">Analisar conteúdo</h2>
+        <p>Cole apenas o trecho necessário. Remova nomes, números, senhas e outros dados pessoais antes de enviar.</p>
+        <form method="post" action="/" novalidate>
+          {% csrf_token %}
+          <label for="content">Mensagem ou URL</label>
+          <textarea id="content" name="content" rows="7" maxlength="1000" required aria-describedby="field-help" placeholder="Ex.: Sua conta será bloqueada hoje. Acesse http://exemplo.com e informe seu código."></textarea>
+          <div class="field-footer"><small id="field-help">Até 1.000 caracteres. Não inclua dados sensíveis.</small></div>
+          {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+          <button type="submit">Verificar sinais</button>
+        </form>
+        <p class="privacy">Sem cadastro. O conteúdo é processado durante a solicitação e não é salvo pelo aplicativo.</p>
+      </section>
+
+      <aside class="card aside" aria-labelledby="how-title">
+        <h2 id="how-title">Como funciona</h2>
+        <ol>
+          <li><strong>Você compartilha o mínimo.</strong> Use só o trecho relevante.</li>
+          <li><strong>As regras procuram sinais.</strong> Urgência, pedidos sensíveis e padrões incomuns de URL.</li>
+          <li><strong>Você decide com mais contexto.</strong> Confirme sempre em um canal oficial.</li>
+        </ol>
+        <div class="note"><strong>Importante</strong><p>Esta versão usa heurísticas determinísticas, não um modelo de linguagem (LLM). Ela pode errar e não garante que uma mensagem ou site seja seguro.</p></div>
+      </aside>
+    </div>
+
+    {% if result %}
+    <section class="card result result-{{ result.level }}" aria-labelledby="result-title" role="status">
+      <p class="eyebrow">Resultado da análise</p>
+      <h2 id="result-title">{% if result.level == 'alto' %}Atenção elevada{% elif result.level == 'moderado' %}Atenção recomendada{% else %}Segurança não confirmada{% endif %}</h2>
+      <p>{{ result.summary }}</p>
+      {% if result.findings %}
+      <h3>Sinais encontrados</h3>
+      <ul class="findings">{% for finding in result.findings %}<li><strong>{{ finding.title }}</strong><span>{{ finding.explanation }}</span></li>{% endfor %}</ul>
+      {% else %}<p>Nenhum padrão das regras atuais foi identificado.</p>{% endif %}
+      <h3>O que fazer agora</h3>
+      <ul class="advice">{% for item in result.advice %}<li>{{ item }}</li>{% endfor %}</ul>
+      <p class="result-foot">{{ result.urls_found }} endereço{{ result.urls_found|pluralize:"s" }} identificado{{ result.urls_found|pluralize:"s" }}. Nenhum foi acessado.</p>
+    </section>
+    {% endif %}
+
+    <section class="examples" aria-labelledby="examples-title"><h2 id="examples-title">Exemplos para testar</h2><div class="example-grid"><div class="example"><strong>Mensagem com pressão</strong><p>“Urgente! Sua conta será bloqueada. Informe seu código agora.”</p></div><div class="example"><strong>Link que pede atenção</strong><p>“Confira: http://conta.exemplo.top/confirmar”</p></div><div class="example"><strong>Sem sinal conhecido</strong><p>“Nossa reunião será amanhã às 14h.”</p></div></div></section>
+  </main>
+  <footer class="wrap footer"><p>Uma ferramenta educativa. Em caso de dúvida, procure os canais oficiais da organização.</p></footer>
+</body>
+</html>
